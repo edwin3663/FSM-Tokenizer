@@ -77,6 +77,6 @@ int main(int argc, char *argv[]) {
     t = t->getNext();
   }
 
-  std::cout << c_count << std::endl;
+  std::cout << "Number of tokens processed: " << c_count << std::endl;
   return 0;
 }
