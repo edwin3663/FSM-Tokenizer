@@ -18,15 +18,15 @@ Nov 5, 2014
 
 // Use only the following libraries:
 #include "parserClasses.h"
-#include <string>
 #include <iostream>
+#include <string>
 
 // Number of columns in transition table
 const int WIDTH = 78;
 
 /*
-  This following table reperesents the finite state machine that I created by hand.
-  the program uses it to Tokenize a well-formed C++ file.
+  This following table reperesents the finite state machine that I created by
+  hand. the program uses it to Tokenize a well-formed C++ file.
 */
 
 int transitionTable[][WIDTH] = {
@@ -554,7 +554,8 @@ int transitionTable[][WIDTH] = {
     0,  0,  75, 0,  0,  75, 75};
 
 /*
-  Appends a new token with the given string repesentation to the end of the list of tokens.
+  Appends a new token with the given string repesentation to the end of the list
+  of tokens.
   @param str the string representation of the token
 */
 void TokenList::append(const string &str) {
@@ -568,7 +569,7 @@ void TokenList::append(const string &str) {
 */
 void TokenList::append(Token *token) {
   if (token == NULL) {
-  	std::cout << "TokenList::append received a NULL ptr" << std::endl;
+    std::cout << "TokenList::append received a NULL ptr" << std::endl;
     return;
   }
 
@@ -607,8 +608,7 @@ void TokenList::deleteToken(Token *token) {
     head = token->next;
     head->prev = NULL;
 
-    if (token == nextToken)
-    {
+    if (token == nextToken) {
       // update the nextToken to be taken by getNextToken()
       nextToken = head;
     }
@@ -632,7 +632,7 @@ void TokenList::deleteToken(Token *token) {
     next->prev = prev;
 
     if (token == nextToken) {
-     // update the nextToken to be taken by getNextToken()
+      // update the nextToken to be taken by getNextToken()
       nextToken = next;
     }
 
@@ -646,27 +646,30 @@ void TokenList::deleteToken(Token *token) {
 */
 void Tokenizer::processStateCommand(commands_t command) {
   switch (command) {
-  case STORE: 
+  case STORE:
     // append the current character to the end of the buffer
     buffer += cur_char;
     offset++;
     break;
 
-  case ACCEPT: 
-    // append the current character to the buffer, then create a token using the buffer as the stringRep
+  case ACCEPT:
+    // append the current character to the buffer, then create a token using the
+    // buffer as the stringRep
     addToken();
     offset++;
     break;
 
-  case ACCEPT_BACK1: 
-    // ignore the current character, then create a token using the buffer as the stringRep
+  case ACCEPT_BACK1:
+    // ignore the current character, then create a token using the buffer as the
+    // stringRep
     state = START;
     tokens.append(buffer);
     buffer.clear();
     break;
 
-  case ACCEPT_BACK2: 
-    // ignore the current character and prev character,  then create a token using the buffer as the stringRep
+  case ACCEPT_BACK2:
+    // ignore the current character and prev character,  then create a token
+    // using the buffer as the stringRep
     state = START;
     tokens.append(buffer);
     buffer.clear();
@@ -674,41 +677,46 @@ void Tokenizer::processStateCommand(commands_t command) {
     break;
 
   case START_BLOCK_COMMENT:
-    // append the current character to the end of the buffer, then create a token with buffer as stringRep
+    // append the current character to the end of the buffer, then create a
+    // token with buffer as stringRep
     processingBlockComment = true;
     addToken();
     offset++;
     break;
 
-  case START_INLINE_COMMENT: 
-    // append the current character to the end of the buffer, then create a token with buffer as sringRep
+  case START_INLINE_COMMENT:
+    // append the current character to the end of the buffer, then create a
+    // token with buffer as sringRep
     processingInlineComment = true;
     addToken();
     offset++;
     break;
 
-  case START_INCLUDE: 
-    // append the current character to the end of the buffer, then create a token with buffer as stringRep
+  case START_INCLUDE:
+    // append the current character to the end of the buffer, then create a
+    // token with buffer as stringRep
     processingIncludeStatement = true;
     addToken();
     offset++;
     break;
 
-  case STOP_BLOCK_COMMENT: 
-    // This command never got used in the final solution but i will leave it here
+  case STOP_BLOCK_COMMENT:
+    // This command never got used in the final solution but i will leave it
+    // here
     tokens.append(buffer.substr(0, buffer.length() - 2));
     buffer.clear();
     processingBlockComment = false;
     offset++;
     break;
 
-  case IGNORE: 
-    // all spaces, and tabs are ignored, we only save them to a buffer when inside a comment, string, or include <>
+  case IGNORE:
+    // all spaces, and tabs are ignored, we only save them to a buffer when
+    // inside a comment, string, or include <>
     state = START;
     offset++;
     break;
 
-  default: 
+  default:
     // the program should never reach this state.
     state = START;
     cout << "Invalid State" << endl;
@@ -718,26 +726,26 @@ void Tokenizer::processStateCommand(commands_t command) {
 }
 
 /*
-  Takes the buffer and creates a token.  The token is then added to the list of token inside
-  Tokenizer class.
+  Takes the buffer and creates a token.  The token is then added to the list of
+  token inside Tokenizer class.
 */
 void Tokenizer::addToken() {
   // after we find a token sucessfully the program goes back to state zero
-  state = START; 
+  state = START;
   buffer += cur_char;
   tokens.append(buffer);
   buffer.clear();
 }
 
 /*
-  Takes a string and tokenizes it.  Each token is first added to a list inside 
-  the Tokenizer class. When all tokens are added from a line they can be retrieved 
-  by the getNextToken function one-by-one.
+  Takes a string and tokenizes it.  Each token is first added to a list inside
+  the Tokenizer class. When all tokens are added from a line they can be
+  retrieved by the getNextToken function one-by-one.
   @param str the string to be tokenized.  Not allowed to be NULL.
 */
 void Tokenizer::setString(string *str) {
   if (str == NULL) {
-  	std::cout << "Tokenizer::setString recieved a NULL input" << std::endl;
+    std::cout << "Tokenizer::setString recieved a NULL input" << std::endl;
     return; // return quiety
   }
 
@@ -750,7 +758,8 @@ void Tokenizer::setString(string *str) {
   commands_t command;
   tokens.deleteList(); // clear out the internal list of tokens
 
-  //Read characters one-by-one from the string and process a command at each step
+  // Read characters one-by-one from the string and process a command at each
+  // step
   while (offset < str->length()) {
     cur_char = str->at(offset);
 
@@ -790,7 +799,8 @@ void Tokenizer::setString(string *str) {
       }
     } else if (processingIncludeStatement) {
       // When in a preprocessor statement we make the '<' '>' behave like
-      // a quotation mark We do that pretending we saw a quotation instead of a < or >
+      // a quotation mark We do that pretending we saw a quotation instead of a
+      // < or >
       if (cur_char == '<' || cur_char == '>') {
         state = transitionTable[(int)'"'][state];
       } else {
@@ -799,8 +809,8 @@ void Tokenizer::setString(string *str) {
       command = stateCommands[state];
       processStateCommand(command);
       if (offset == str->length() - 1) {
-        // once the end of the line is reached the include statement is over. minus
-        // one because we added a whitespace
+        // once the end of the line is reached the include statement is over.
+        // minus one because we added a whitespace
 
         processingIncludeStatement = false;
       }

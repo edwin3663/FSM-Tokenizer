@@ -21,8 +21,8 @@ Nov 5, 2014
 #include <iostream>
 
 /*
-	Demonstrates how the Tokenizer takes well-formed C++ code from an input file.
-	A numbered list of all the Tokens found is printed to the screen.
+        Demonstrates how the Tokenizer takes well-formed C++ code from an input
+   file. A numbered list of all the Tokens found is printed to the screen.
 */
 int main(int argc, char *argv[]) {
   ifstream sourceFile;
@@ -33,15 +33,15 @@ int main(int argc, char *argv[]) {
 
   // Open the input file
   if (argc > 1) {
-  	sourceFile.open(argv[1]);
-  	std::cout << "Opening input file: " << argv[1] << std::endl;
-		if (!sourceFile.is_open()) {
-		  std::cout << "Failed to open file" << endl;
-		  return 1;
-		}
-	}
+    sourceFile.open(argv[1]);
+    std::cout << "Opening input file: " << argv[1] << std::endl;
+    if (!sourceFile.is_open()) {
+      std::cout << "Failed to open file" << endl;
+      return 1;
+    }
+  }
 
-	// Tokenizes the input file line-by-line
+  // Tokenizes the input file line-by-line
   while (!sourceFile.eof()) {
     string lineA, lineB;
     getline(sourceFile, lineA);
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     tokens.append("\n");
   }
 
-	// Outputs the list of tokens found in source file
+  // Outputs the list of tokens found in source file
   t = tokens.getFirst();
   while (t) {
     std::cout << "Token " << ++c_count << ": ";
