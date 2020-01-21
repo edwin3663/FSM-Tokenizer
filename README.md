@@ -17,7 +17,7 @@ Here is an example of output
 
 The following lines are output from tokenizing a hello world program in C++
 
-Opening input file: ./testCases/helloworld.cpp
+Opening input file: ./testCases/helloworld.cpp  
 Token 1: #  
 Token 2: include  
 Token 3: <iostream>  
